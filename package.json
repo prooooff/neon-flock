@@ -1,0 +1,21 @@
+{
+  "name": "neon-flock",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Neon Flock — інтерактивна симуляція зграї (boids) на Three.js + TypeScript",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.5"
+  }
+}

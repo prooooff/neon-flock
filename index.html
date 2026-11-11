@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Flock · інтерактивна симуляція зграї</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <aside class="panel">
+      <h1>Neon Flock</h1>
+      <p class="sub">інтерактивна симуляція зграї (boids)</p>
+
+      <label>Кількість</label>
+      <input id="count" type="range" />
+      <label>Швидкість</label>
+      <input id="max-speed" type="range" />
+      <label>Сила маневру</label>
+      <input id="max-force" type="range" />
+      <label>Радіус сприйняття</label>
+      <input id="perception" type="range" />
+      <label>Розділення</label>
+      <input id="separation" type="range" />
+      <label>Вирівнювання</label>
+      <input id="alignment" type="range" />
+      <label>Згуртованість</label>
+      <input id="cohesion" type="range" />
+      <label>Сила миші (− відштовхує / + притягує)</label>
+      <input id="mouse-force" type="range" />
+      <label>Радіус миші</label>
+      <input id="mouse-radius" type="range" />
+
+      <div class="row">
+        <button id="palette-btn">Палітра ⟳</button>
+        <button id="reset-btn">Скинути</button>
+      </div>
+    </aside>
+
+    <div class="hint">Рухай мишею — зграя реагує<br />Слайдери — параметри поведінки</div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
