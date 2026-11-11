@@ -1,6 +1,12 @@
 import * as THREE from 'three'
 import type { SimulationParams } from './params'
 
+/** Точка, до якої зграя збирається, та сила притягування. */
+export interface Attractor {
+  point: THREE.Vector3
+  strength: number
+}
+
 /**
  * Окремий агент зграї. Містить лише логіку поведінки (boids-правила)
  * і нічого не знає про рендер — це чистий розрахунок.
@@ -20,7 +26,7 @@ export class Boid {
     others: readonly Boid[],
     dt: number,
     params: SimulationParams,
-    mouse: THREE.Vector3 | null,
+    attractor: Attractor | null,
   ): void {
     const perceptionSq = params.perception * params.perception
     const separationSq = params.separation * params.separation
@@ -44,7 +50,6 @@ export class Boid {
       groupCount++
 
       if (dSq < separationSq) {
-        // чим ближче сусід — тим сильніше відштовхування
         separation.x += -dx / dSq
         separation.y += -dy / dSq
         separation.z += -dz / dSq
@@ -75,18 +80,18 @@ export class Boid {
       steer.addScaledVector(this.position, (-(r - bound) * 0.4) / r)
     }
 
-    // взаємодія з курсором (притягування або відштовхування)
-    if (mouse && params.mouseForce !== 0) {
-      const dx = mouse.x - this.position.x
-      const dy = mouse.y - this.position.y
-      const dz = mouse.z - this.position.z
+    // збір у точці (затиснута ПКМ)
+    if (attractor) {
+      const dx = attractor.point.x - this.position.x
+      const dy = attractor.point.y - this.position.y
+      const dz = attractor.point.z - this.position.z
       const dSq = dx * dx + dy * dy + dz * dz
       const radiusSq = params.mouseRadius * params.mouseRadius
       if (dSq < radiusSq && dSq > 1e-6) {
         const inv = 1 / Math.sqrt(dSq)
-        steer.x += dx * inv * params.mouseForce
-        steer.y += dy * inv * params.mouseForce
-        steer.z += dz * inv * params.mouseForce
+        steer.x += dx * inv * attractor.strength
+        steer.y += dy * inv * attractor.strength
+        steer.z += dz * inv * attractor.strength
       }
     }
 

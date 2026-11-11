@@ -38,6 +38,16 @@ engine.start((dt, time) => {
   engine.camera.position.y = 4 + Math.sin(time * 0.22) * 1.6
   engine.camera.lookAt(0, 0, 0)
 
-  flock.update(dt, params, pointer.target)
+  // затиснута ПКМ → зграя збирається в точці курсора
+  const attractor = pointer.attracting && pointer.target
+    ? { point: pointer.target, strength: params.mouseForce }
+    : null
+
+  flock.update(dt, params, attractor)
+
+  // відпущена ПКМ → гарний розліт
+  const scatterPoint = pointer.consumeScatterPoint()
+  if (scatterPoint) flock.scatter(scatterPoint, params.maxSpeed * 1.2)
+
   renderer.sync(flock)
 })

@@ -18,7 +18,7 @@ export const DEFAULT_PARAMS: SimulationParams = {
   separation: 1.4,
   alignment: 0.8,
   cohesion: 0.6,
-  mouseForce: 0.8,
+  mouseForce: 3,
   mouseRadius: 6,
 }
 

@@ -22,7 +22,7 @@ const SLIDERS: SliderDef[] = [
   { id: 'separation', key: 'separation', min: 0, max: 3, step: 0.1 },
   { id: 'alignment', key: 'alignment', min: 0, max: 2, step: 0.05 },
   { id: 'cohesion', key: 'cohesion', min: 0, max: 2, step: 0.05 },
-  { id: 'mouse-force', key: 'mouseForce', min: -2, max: 2, step: 0.1 },
+  { id: 'mouse-force', key: 'mouseForce', min: 1, max: 6, step: 0.1 },
   { id: 'mouse-radius', key: 'mouseRadius', min: 1, max: 15, step: 0.5 },
 ]
 

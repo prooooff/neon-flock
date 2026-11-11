@@ -1,8 +1,8 @@
 import * as THREE from 'three'
-import { Boid } from './boid'
+import { Boid, type Attractor } from './boid'
 import type { SimulationParams } from './params'
 
-/** Керує набором агентів: створення, перефарбування, оновлення. */
+/** Керує набором агентів: створення, перефарбування, оновлення, розліт. */
 export class Flock {
   boids: Boid[] = []
 
@@ -31,9 +31,28 @@ export class Flock {
     this.boids.forEach((boid, i) => boid.color.set(palette[i % palette.length]))
   }
 
-  update(dt: number, params: SimulationParams, mouse: THREE.Vector3 | null): void {
+  update(dt: number, params: SimulationParams, attractor: Attractor | null): void {
     for (const boid of this.boids) {
-      boid.update(this.boids, dt, params, mouse)
+      boid.update(this.boids, dt, params, attractor)
+    }
+  }
+
+  /** Імпульс розльоту від точки (після відпускання ПКМ). */
+  scatter(from: THREE.Vector3, strength: number): void {
+    for (const boid of this.boids) {
+      const dir = boid.position.clone().sub(from)
+      if (dir.lengthSq() < 1e-4) {
+        dir.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
+      }
+      dir.normalize()
+
+      // випадкова складова, щоб розліт виглядав живо, а не ідеальною сферою
+      dir.x += (Math.random() - 0.5) * 0.7
+      dir.y += (Math.random() - 0.5) * 0.7
+      dir.z += (Math.random() - 0.5) * 0.7
+      dir.normalize()
+
+      boid.velocity.addScaledVector(dir, strength * (0.7 + Math.random() * 0.6))
     }
   }
 }
